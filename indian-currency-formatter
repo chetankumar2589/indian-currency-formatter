@@ -1,0 +1,35 @@
+def format_indian_currency(number):
+    s = str(number)
+
+    if '.' in s:
+        parts = s.split('.')
+        integer_part = parts[0]
+        decimal_part = parts[1]
+    else:
+        integer_part = s
+        decimal_part = ""
+
+    if len(integer_part) <= 3:
+        formatted_integer = integer_part
+    else:
+        last_three_digits = integer_part[-3:]
+        other_digits = integer_part[:-3]
+        reversed_other_digits = other_digits[::-1]
+        
+        with_commas = ""
+        for i in range(0, len(reversed_other_digits), 2):
+            with_commas += reversed_other_digits[i:i+2] + ","
+        
+        formatted_other_digits = with_commas[:-1][::-1]
+        
+        formatted_integer = formatted_other_digits + "," + last_three_digits
+
+    if decimal_part:
+        return formatted_integer + "." + decimal_part
+    else:
+        return formatted_integer
+
+print(f"123456.7891  ->  {format_indian_currency(123456.7891)}")
+print(f"50439281.2   ->  {format_indian_currency(50439281.2)}")
+print(f"98765        ->  {format_indian_currency(98765)}")
+print(f"1000         ->  {format_indian_currency(1000)}")
